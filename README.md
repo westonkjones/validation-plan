@@ -22,13 +22,23 @@ It's listed in the [wes-skills](https://github.com/westonkjones/wes-skills) mark
 
 ## Use
 
+Run the command from inside a clone of the repo the change belongs to, and pass it the change to validate:
+
 ```
-/validation-plan:validation-plan 1249
-/validation-plan:validation-plan https://github.com/org/repo/pull/1249
-/validation-plan:validation-plan PROJ-123
+/validation-plan:validation-plan 1249                                     # PR #1249 in the repo you're in
+/validation-plan:validation-plan https://github.com/org/repo/pull/1249    # a PR by URL, in any repo
+/validation-plan:validation-plan PROJ-123                                 # a Jira ticket; its linked PRs and docs are pulled in
+/validation-plan:validation-plan                                          # the branch you have checked out, diffed against main
 ```
 
-With no argument it uses the current branch. You can also ask in plain words, like "write a validation plan for this PR".
+A bare number is a pull request number, read with `gh pr view` against the current repo. A Jira key needs Jira access (see Requirements). You can also ask in plain words, like "write a validation plan for this PR".
+
+Before it runs anything, it asks two questions:
+
+1. Whether to run the plan against a local stack and capture real responses, or derive it from the code only.
+2. For UI changes, whether to record videos: the happy path plus up to five edge cases, the happy path only, or none.
+
+It finishes with a link to the published plan and a note on anything it couldn't exercise locally.
 
 ## Requirements
 
