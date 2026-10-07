@@ -14,11 +14,11 @@ It runs only when you ask for it. Before doing anything expensive, it asks wheth
 ## Install
 
 ```
-claude plugin marketplace add westonkjones/weston-review
-claude plugin install validation-plan@westonkjones
+claude plugin marketplace add westonkjones/wes-skills
+claude plugin install validation-plan@wes-skills
 ```
 
-The `westonkjones` marketplace lives in the weston-review repo and lists both plugins.
+It's listed in the [wes-skills](https://github.com/westonkjones/wes-skills) marketplace.
 
 ## Use
 
