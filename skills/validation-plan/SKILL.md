@@ -19,8 +19,8 @@ The user may give a PR number or URL, a Jira key, or nothing (use the current br
 from whichever sources are available, and follow links between them:
 
 - **PR**: `gh pr view <n> --json title,body,url,headRefName,baseRefName,files,mergedAt,mergeCommit`
-  and `gh pr diff <n>`. Read and run the code from a detached `git worktree add` in the
-  scratchpad rather than switching branches in the user's clones, which often have work in
+  and `gh pr diff <n>`. Read the code from a detached `git worktree add` in the scratchpad
+  (and run it there only once the user picks *Run and capture* in step 3) rather than switching branches in the user's clones, which often have work in
   progress. Check out the PR head if it's open, or `mergeCommit.oid` if it's merged, so the
   plan reflects that change and not whatever later landed on `origin/main`.
 - **Jira**: use whatever Jira access the session has, such as `jira issue view <KEY> --plain`
