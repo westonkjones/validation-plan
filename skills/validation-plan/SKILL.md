@@ -18,10 +18,11 @@ Only run this when the user asks for it.
 The user may give a PR number or URL, a Jira key, or nothing (use the current branch). Gather
 from whichever sources are available, and follow links between them:
 
-- **PR**: `gh pr view <n> --json title,body,url,headRefName,baseRefName,files` and
-  `gh pr diff <n>`. Read and run the code from a detached `git worktree add` in the
-  scratchpad (the PR head, or `origin/main` if it's merged) rather than switching branches
-  in the user's clones, which often have work in progress.
+- **PR**: `gh pr view <n> --json title,body,url,headRefName,baseRefName,files,mergedAt,mergeCommit`
+  and `gh pr diff <n>`. Read and run the code from a detached `git worktree add` in the
+  scratchpad rather than switching branches in the user's clones, which often have work in
+  progress. Check out the PR head if it's open, or `mergeCommit.oid` if it's merged, so the
+  plan reflects that change and not whatever later landed on `origin/main`.
 - **Jira**: use whatever Jira access the session has, such as `jira issue view <KEY> --plain`
   with `jira-cli` or an Atlassian connector, and follow the user's CLAUDE.md if it names
   one. Pull acceptance criteria and linked issues.

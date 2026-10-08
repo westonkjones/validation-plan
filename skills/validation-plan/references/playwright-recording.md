@@ -6,36 +6,58 @@ put a caption on screen saying what the clip shows.
 
 ## Setup
 
-Prefer the repo's own Playwright if it has one (`@playwright/test` or `playwright` in any
-`package.json`, including tooling packages under `tools/`), since it already matches the
-repo's browsers. Keep scripts in the scratchpad and load it from there with
-`createRequire("<repo>/<package dir>/package.json")("playwright")`. Otherwise install a pinned copy in the scratchpad, outside the repo:
+Make a recording directory in the scratchpad, outside the repo:
 
 ```bash
 REC_DIR="$SCRATCHPAD/validation-videos"   # session scratchpad directory
-mkdir -p "$REC_DIR" && cd "$REC_DIR"
+mkdir -p "$REC_DIR"
+```
+
+Prefer the repo's own Playwright if it has one (`@playwright/test` or `playwright` in any
+`package.json`, including tooling packages under `tools/`), since it already matches the
+repo's browsers. Install that package's dependencies and point the scripts at it:
+
+```bash
+(cd "$REPO/<package dir>" && npm ci && npx playwright install chromium)
+export PLAYWRIGHT_PKG="$REPO/<package dir>/package.json"
+```
+
+Keep scripts in the scratchpad either way. Node resolves a bare `import 'playwright'` from
+the script's own directory, so the template loads it through `createRequire` from
+`PLAYWRIGHT_PKG`. If the repo has no Playwright, install a pinned copy in `$REC_DIR` instead
+and leave `PLAYWRIGHT_PKG` unset:
+
+```bash
+cd "$REC_DIR"
 npm init -y >/dev/null
 npm install --silent playwright@1.48.2
 npx playwright install chromium
 ```
 
-Make sure the app is running from the plan's setup section before recording, and sign in the
+Make sure the app is running from the plan's setup section before recording, and export
+`BASE_URL` as the UI URL that setup serves. Sign in the
 way a reader would locally (dev bypass, mock sign-in, seeded user). Never record against
 shared staging or production.
 
 ## Script template
 
-Write one script per scenario in `$REC_DIR` and run it with `node <script>.mjs`. Fill in the
+Write one script per scenario in `$REC_DIR` and run it from there with `node <script>.mjs`, so
+the relative video paths land in `$REC_DIR`. Fill in the
 steps from the flow you mapped in the code; use real selectors from the components (roles,
 labels, test ids) rather than guessing.
 
 ```js
 // happy-path.mjs
-import { chromium } from 'playwright';
+import { createRequire } from 'node:module';
+
+// Load Playwright from the repo package in PLAYWRIGHT_PKG, or from next to this script.
+const require = createRequire(process.env.PLAYWRIGHT_PKG || import.meta.url);
+const { chromium } = require('playwright');
 
 const SCENARIO = 'happy-path';             // file name slug
 const CAPTION = 'Happy path: create a shop and publish it';
-const BASE_URL = process.env.BASE_URL ?? 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL;   // the UI URL from the plan's setup
+if (!BASE_URL) throw new Error('Set BASE_URL to the local UI URL from the plan setup');
 
 // Pins a caption bar to the top of the page so the clip explains itself.
 async function caption(page, text) {

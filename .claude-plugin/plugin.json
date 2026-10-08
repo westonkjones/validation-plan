@@ -1,6 +1,6 @@
 {
   "name": "validation-plan",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build a manual validation plan for a finished change: a short summary with ticket, PR and design-doc links, copy-paste local setup, happy-path requests and UI steps grounded in the code, and Playwright videos of UI scenarios.",
   "author": {
     "name": "Weston Jones",
