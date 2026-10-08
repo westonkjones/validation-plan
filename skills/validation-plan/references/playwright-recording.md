@@ -9,7 +9,8 @@ put a caption on screen saying what the clip shows.
 Make a recording directory in the scratchpad, outside the repo:
 
 ```bash
-REC_DIR="$SCRATCHPAD/validation-videos"   # session scratchpad directory
+REPO="<absolute path of the scratch worktree>"   # the checkout from step 1
+REC_DIR="$SCRATCHPAD/validation-videos"           # session scratchpad directory
 mkdir -p "$REC_DIR"
 ```
 
